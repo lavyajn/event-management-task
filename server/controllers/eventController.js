@@ -44,7 +44,7 @@ const getEventDetails = async(req, res) => {
         u.id, u.name, u.email
         FROM users u
         JOIN event_registration r on u.id = r.user_id
-        WHERE r.event_id = $1
+        WHERE r.event_id = $1;
         `;
         const userResult = await db.query(userSql, [id]);
 
@@ -59,9 +59,49 @@ const getEventDetails = async(req, res) => {
     }
 };
 
+const getEventStats = async(req, res) => {
+    const { id } = req.params;
+    
+    try {
+        const statsSql = `
+        SELECT
+        e.capacity,
+        COUNT(r.event_id) AS registration_count
+        FROM events e
+        LEFT JOIN event_registration r on e.id = r.event_id
+        WHERE e.id = $1
+        GROUP BY e.id;
+        `;
+        const statsResult = await db.query(statsSql, [id]);
+
+        if(statsResult.rows.length === 0) {
+            return res.status(404).json({message: 'Event not found'});
+        }
+
+        const stats = statsResult.rows[0];
+        const capacity = parseInt(stats.capacity, 10);
+        const totalRegistrations = parseInt(stats.registration_count, 10);
+
+        //calculation for data to be send
+        const remainingCapacity = capacity - totalRegistrations ;
+        const percentageUsed = capacity > 0 ? (totalRegistrations / capacity)*100 : 0;
+
+        const response = {
+            totalRegistrations,
+            remainingCapacity,
+            percentageOfCapacityUsed :`${percentageUsed.toFixed(2)}%`
+        };
+        res.status(200).json(response);   
+    }catch(err) {
+        console.error('Error fetching event stats:', err);
+        res.status(500).json({ error: 'Internal server error.' });
+    }
+};
+
 module.exports = {
     createEvent,
     getEventDetails,
+    getEventStats,
 }
 
 /* 
