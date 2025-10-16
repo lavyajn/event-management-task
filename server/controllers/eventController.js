@@ -98,10 +98,29 @@ const getEventStats = async(req, res) => {
     }
 };
 
+const listUpcomingEvents = async(req, res) => {
+    try {
+        const sql = `
+        SELECT * FROM events
+        WHERE date > NOW()
+        ORDER BY date ASC, location ASC
+        `;
+        const result = await db.query(sql);
+        if(result.rows.length === 0) {
+            return res.status(200).json({message: 'No upcoming events.'});
+        }
+        res.status(200).json(result.rows);
+    }catch(err) {
+        console.error('Error fetching upcoming events:', err);
+        res.status(500).json({ error: 'Internal server error.' });
+    }
+};
+
 module.exports = {
     createEvent,
     getEventDetails,
     getEventStats,
+    listUpcomingEvents,
 }
 
 /* 
