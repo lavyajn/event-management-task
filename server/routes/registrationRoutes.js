@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { createEvent } = require('../controllers/eventController.js');
+const { registerForEvent } = require('../controllers/registrationController.js');
 
 // creating a new event using POST 
-router.post('/', createEvent);
+router.post('/', registerForEvent);
 
 module.exports = router;
