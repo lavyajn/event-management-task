@@ -58,6 +58,30 @@ const registerForEvent = async(req, res) => {
     }
 };
 
+const cancelRegistration = async(req, res) => {
+    const { userId, eventId } = req.body;
+
+    if(!userId || !eventId) {
+        return res.status(400).json({message: 'UserId and EventId are required.'});
+    }
+    try {
+        const deleteSql = `
+        DELETE FROM event_registration
+        WHERE user_id = $1 and event_id = $2
+        `;
+        const deleteResult = await db.query(deleteSql, [userId, eventId]);
+        //rowCount counts how many rows were deleted
+        if(deleteResult.rowCount === 0) {
+            return res.status(404).json({message: 'Registration not found.User did not register for this event'});
+        }
+        res.status(200).json({message: 'Registration was cancelled successfully.'});
+    }catch(err) {
+        console.error('Error canceling registration:', err);
+        res.status(500).json({ error: 'Internal server error.' });
+    }
+};
+
 module.exports = {
     registerForEvent,
+    cancelRegistration,
 }
