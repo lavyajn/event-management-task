@@ -1,5 +1,7 @@
 # event-management-task
 
+uncomment the code in App.jsx to run on local machine for the BASE_API_URL
+
 Live Demo:
 
 Live Frontend Portal: https://event-management-task-zeta.vercel.app/
