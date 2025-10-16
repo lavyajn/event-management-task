@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './index.css';
 
-const API_BASE_URL = 'http://localhost:2000/api';
+const API_BASE_URL = 'https://event-management-api-n4ka.onrender.com';
 
 function App() {
     const [events, setEvents] = useState([]);
