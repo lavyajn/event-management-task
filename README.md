@@ -1,6 +1,10 @@
 # event-management-task
 
-Live Url:
+Live Demo:
+
+Live Frontend Portal: https://event-management-task-zeta.vercel.app/
+
+Live Backend API: https://event-management-api-n4ka.onrender.com
 
 Event Management API & Portal
 
@@ -247,3 +251,4 @@ Request Body:
 Success Response (200 OK): {"message": "Registration was cancelled successfully."}
 
 Error Response (404 Not Found): {"message": "Registration not found. User was not registered for this event"}
+
