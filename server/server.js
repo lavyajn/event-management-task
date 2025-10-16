@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./db.js');
+const cors = require('cors');
 const eventRoutes = require('./routes/eventRoutes.js');
 const userRoutes = require('./routes/userRoutes.js');
 const registrationRoutes = require('./routes/registrationRoutes.js');
@@ -9,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 2001;
 
 app.use(express.json());
+app.use(cors());
 
 /* app.get('/test-db', async (req, res) => {
     try{
