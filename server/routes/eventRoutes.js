@@ -6,6 +6,6 @@ const { createEvent, getEventDetails } = require('../controllers/eventController
 router.post('/', createEvent);
 
 // GET endpoint for the event detail
-router.get('/', getEventDetails);
+router.get('/:id', getEventDetails);
 
 module.exports = router;
