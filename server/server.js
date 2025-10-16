@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./db.js');
+const eventRoute = require('./routes/eventRoute.js');
 require('dotenv').config();
 
 const app = express();
@@ -19,6 +20,8 @@ app.get('/test-db', async (req, res) => {
         res.status(500).json({message: 'Failed to connect to database.'});
     }
 });
+
+app.use('/api/events',eventRoute);
 
 app.listen(PORT, () =>{
     console.log(`Server is running on port ${PORT}`);
