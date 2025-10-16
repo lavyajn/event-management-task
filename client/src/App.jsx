@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './index.css';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'http://localhost:2000/api';
 
 function App() {
     const [events, setEvents] = useState([]);
@@ -133,6 +133,7 @@ function CreateUserModal({ onClose, showToast }) {
             });
             const data = await response.json();
             if(response.ok) {
+                console.log(`User created! Your User ID is: ${data.UserId}\n\nPlease save this for actions like canceling a registration.`);
                 showToast(data.message || 'User created!');
                 onClose();
             } else {
@@ -173,6 +174,7 @@ function CreateEventModal({ onClose, showToast, onEventCreated }) {
             const data = await response.json();
             
             if (response.ok) {
+                console.log("New Event Created! Event ID:", data.eventId);
                 showToast(data.message || 'Event created!');
                 onEventCreated();
                 onClose();
